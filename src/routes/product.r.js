@@ -9,8 +9,11 @@ router.get('/', (req, res) => {
 	res.send(result);
 });
 
-router.post('/', (req, res) => {
-	let result = manager.createProd(req.body);
-	res.send(result);
+router.post('/', async (req, res) => {
+	const { nombre, precio, descripcion } = req.body;
+	const nuevoProducto = { nombre, precio, descripcion };
+	const { code, resultado } = await manager.createProd(nuevoProducto);
+	res.status(code).json(resultado);
 });
+
 module.exports = router;
